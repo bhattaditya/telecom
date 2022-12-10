@@ -1,0 +1,16 @@
+server:
+  port: 9026
+  servlet:
+    context-path: /telecom
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/telecom
+    username:
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
