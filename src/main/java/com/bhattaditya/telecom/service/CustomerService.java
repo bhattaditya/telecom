@@ -2,11 +2,10 @@ package com.bhattaditya.telecom.service;
 
 import com.bhattaditya.telecom.dto.CustomerDto;
 import com.bhattaditya.telecom.entity.Customer;
+import com.bhattaditya.telecom.exception.ResourceNotFoundException;
 import com.bhattaditya.telecom.repository.CustomerRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,19 +39,19 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer updateCustomer(String customerId, Customer customer) {
+    public CustomerDto updateCustomer(String customerId, Customer customer) {
         Customer updatedCustomer = findCustomer(customerId);
-
         updatedCustomer.setName(customer.getName());
         updatedCustomer.setEmail(customer.getEmail());
+        updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
 
-        return updatedCustomer;
+        return modelMapper.map(updatedCustomer, CustomerDto.class);
     }
 
     private Customer findCustomer(String customerId) {
         return customerRepository
                 .findById(Integer.valueOf(customerId))
-                .orElseThrow(() -> new IllegalStateException("Customer with ID:" + customerId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "ID", customerId));
     }
 
     public void deleteCustomer(String customerId) {
