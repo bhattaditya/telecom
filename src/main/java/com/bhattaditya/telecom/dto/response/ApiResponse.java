@@ -1,4 +1,4 @@
-package com.bhattaditya.telecom.dto;
+package com.bhattaditya.telecom.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,8 @@
 package com.bhattaditya.telecom.service;
 
-import com.bhattaditya.telecom.dto.CustomerDto;
+import com.bhattaditya.telecom.dto.request.CustomerRequestDto;
+import com.bhattaditya.telecom.dto.request.CustomerEmailDto;
+import com.bhattaditya.telecom.dto.response.CustomerResponseDto;
 import com.bhattaditya.telecom.entity.Customer;
 import com.bhattaditya.telecom.exception.ResourceNotFoundException;
 import com.bhattaditya.telecom.repository.CustomerRepository;
@@ -24,28 +26,27 @@ public class CustomerService {
         this.modelMapper = modelMapper;
     }
 
-    public CustomerDto createCustomer(Customer customer) {
-
+    public CustomerResponseDto createCustomer(CustomerRequestDto customerRequestDto) {
+        Customer customer = modelMapper.map(customerRequestDto, Customer.class);
         Customer newCustomer = customerRepository.saveAndFlush(customer);
-        return modelMapper.map(newCustomer, CustomerDto.class);
+
+        return modelMapper.map(newCustomer, CustomerResponseDto.class);
     }
 
-    public List<CustomerDto> fetchCustomers() {
+    public List<CustomerResponseDto> fetchCustomers() {
         return customerRepository
                 .findAll()
                 .stream()
-                .map(customer -> modelMapper.map(customer, CustomerDto.class))
+                .map(customer -> modelMapper.map(customer, CustomerResponseDto.class))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public CustomerDto updateCustomer(String customerId, Customer customer) {
+    public CustomerResponseDto updateCustomer(String customerId, CustomerEmailDto customerEmailDto) {
         Customer updatedCustomer = findCustomer(customerId);
-        updatedCustomer.setName(customer.getName());
-        updatedCustomer.setEmail(customer.getEmail());
-        updatedCustomer.setPhoneNumber(customer.getPhoneNumber());
+        updatedCustomer.setEmail(customerEmailDto.getEmail());
 
-        return modelMapper.map(updatedCustomer, CustomerDto.class);
+        return modelMapper.map(updatedCustomer, CustomerResponseDto.class);
     }
 
     private Customer findCustomer(String customerId) {
