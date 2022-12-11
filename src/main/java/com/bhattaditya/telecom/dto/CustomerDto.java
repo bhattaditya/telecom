@@ -8,6 +8,6 @@ import lombok.Setter;
 public class CustomerDto {
 
     private Integer id;
-    private String name;
-    private String email;
+    private Long phoneNumber;
+
 }

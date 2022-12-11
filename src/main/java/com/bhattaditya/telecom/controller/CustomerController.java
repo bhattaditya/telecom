@@ -1,5 +1,6 @@
 package com.bhattaditya.telecom.controller;
 
+import com.bhattaditya.telecom.dto.ApiResponse;
 import com.bhattaditya.telecom.dto.CustomerDto;
 import com.bhattaditya.telecom.entity.Customer;
 import com.bhattaditya.telecom.service.CustomerService;
@@ -33,14 +34,14 @@ public class CustomerController {
     }
 
     @PutMapping(value = "/{customerId}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String customerId, @RequestBody Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomer(customerId,customer);
+    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable String customerId, @RequestBody Customer customer) {
+        CustomerDto updatedCustomer = customerService.updateCustomer(customerId,customer);
         return new ResponseEntity<>(updatedCustomer, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping(value = "/{customerId}")
-    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable String customerId) {
+    public ApiResponse deleteCustomer(@PathVariable String customerId) {
         customerService.deleteCustomer(customerId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ApiResponse("Deleted", true);
     }
 }
