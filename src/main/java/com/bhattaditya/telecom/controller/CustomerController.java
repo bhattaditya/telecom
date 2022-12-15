@@ -1,9 +1,11 @@
 package com.bhattaditya.telecom.controller;
 
-import com.bhattaditya.telecom.dto.ApiResponse;
-import com.bhattaditya.telecom.dto.CustomerDto;
-import com.bhattaditya.telecom.entity.Customer;
+import com.bhattaditya.telecom.dto.response.ApiResponse;
+import com.bhattaditya.telecom.dto.request.CustomerRequestDto;
+import com.bhattaditya.telecom.dto.request.CustomerEmailDto;
+import com.bhattaditya.telecom.dto.response.CustomerResponseDto;
 import com.bhattaditya.telecom.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,26 +18,29 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDto> createCustomer(@RequestBody Customer customer) {
-        customerService.createCustomer(customer);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<CustomerResponseDto> createCustomer(
+            @RequestBody CustomerRequestDto customerRequestDto) {
+        CustomerResponseDto newCustomer = customerService.createCustomer(customerRequestDto);
+        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDto>> fetchCustomers() {
-        List<CustomerDto> customerDtos = customerService.fetchCustomers();
+    public ResponseEntity<List<CustomerResponseDto>> fetchCustomers() {
+        List<CustomerResponseDto> customerResponseDtos = customerService.fetchCustomers();
 
-        return new ResponseEntity<>(customerDtos, HttpStatus.OK);
+        return new ResponseEntity<>(customerResponseDtos, HttpStatus.OK);
     }
 
     @PutMapping(value = "/{customerId}")
-    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable String customerId, @RequestBody Customer customer) {
-        CustomerDto updatedCustomer = customerService.updateCustomer(customerId,customer);
+    public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable String customerId,
+                                                      @RequestBody CustomerEmailDto customerEmailDto) {
+        CustomerResponseDto updatedCustomer = customerService.updateCustomer(customerId,customerEmailDto);
         return new ResponseEntity<>(updatedCustomer, HttpStatus.ACCEPTED);
     }
 
