@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
         String message = e.getMessage();
         Boolean isSuccess = false;
 
-        return new ResponseEntity<>(new ApiResponse(message, isSuccess), HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(message, isSuccess));
     }
 
     /*

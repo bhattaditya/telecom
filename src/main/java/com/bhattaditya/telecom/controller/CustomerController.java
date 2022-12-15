@@ -27,21 +27,21 @@ public class CustomerController {
     public ResponseEntity<CustomerResponseDto> createCustomer(
             @RequestBody CustomerRequestDto customerRequestDto) {
         CustomerResponseDto newCustomer = customerService.createCustomer(customerRequestDto);
-        return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newCustomer);
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerResponseDto>> fetchCustomers() {
         List<CustomerResponseDto> customerResponseDtos = customerService.fetchCustomers();
 
-        return new ResponseEntity<>(customerResponseDtos, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(customerResponseDtos);
     }
 
     @PutMapping(value = "/{customerId}")
     public ResponseEntity<CustomerResponseDto> updateCustomer(@PathVariable String customerId,
                                                       @RequestBody CustomerEmailDto customerEmailDto) {
         CustomerResponseDto updatedCustomer = customerService.updateCustomer(customerId,customerEmailDto);
-        return new ResponseEntity<>(updatedCustomer, HttpStatus.ACCEPTED);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedCustomer);
     }
 
     @DeleteMapping(value = "/{customerId}")
