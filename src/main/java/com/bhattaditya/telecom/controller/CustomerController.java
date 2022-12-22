@@ -5,6 +5,9 @@ import com.bhattaditya.telecom.dto.request.CustomerRequestDto;
 import com.bhattaditya.telecom.dto.request.CustomerEmailDto;
 import com.bhattaditya.telecom.dto.response.CustomerResponseDto;
 import com.bhattaditya.telecom.service.CustomerService;
+
+import io.swagger.annotations.ApiOperation;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,7 @@ public class CustomerController {
     }
 
     @GetMapping
+    @ApiOperation("Returns list of customers")
     public ResponseEntity<List<CustomerResponseDto>> fetchCustomers() {
         List<CustomerResponseDto> customerResponseDtos = customerService.fetchCustomers();
 
