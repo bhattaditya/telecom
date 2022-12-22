@@ -12,9 +12,9 @@ public class TelecomApplication {
 		SpringApplication.run(TelecomApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 }
